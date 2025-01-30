@@ -10,7 +10,7 @@ namespace WeatherApp.API.Controllers
   public class WeatherController : ControllerBase
   {
     private readonly IWeatherService _weatherService;
-    private TempratureUnitType _temperatureUnit;  // Keep this field
+    private TemperatureUnitType _temperatureUnit;
 
     public WeatherController(IWeatherService weatherService)
     {

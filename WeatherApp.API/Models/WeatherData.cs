@@ -10,9 +10,8 @@
     public string WeatherIcon { get; set; }
   }
 
-  // This class is used for the temperature unit request
   public class TemperatureUnitRequest
   {
-    public string Unit { get; set; } // "metric" or "imperial"
+    public string Unit { get; set; }
   }
 }

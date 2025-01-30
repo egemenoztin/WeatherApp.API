@@ -18,7 +18,6 @@ namespace WeatherApp.API.Services
 
     public async Task<WeatherData> GetWeatherForCity(string city, string unit)
     {
-      // Build the API URL with query parameters
       var response = await _httpClient.GetAsync(
           $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={_configuration["ApiKey"]}&units={unit}");
 
@@ -26,7 +25,6 @@ namespace WeatherApp.API.Services
       var content = await response.Content.ReadAsStringAsync();
       var data = JsonSerializer.Deserialize<JsonElement>(content);
 
-      // Map the API response to WeatherData model
       return new WeatherData
       {
         CityName = data.GetProperty("name").GetString(),

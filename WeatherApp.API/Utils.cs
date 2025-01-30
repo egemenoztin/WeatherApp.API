@@ -4,21 +4,21 @@ namespace WeatherApp.API
 {
   public static class Utils
   {
-    public static TempratureUnitType ConvertTempratureUnitType(string unit)
+    public static TemperatureUnitType ConvertTempratureUnitType(string unit)
     {
       return unit.ToLower() switch
       {
-        "metric" => TempratureUnitType.METRIC,
-        "imperial" => TempratureUnitType.IMPERIAL,
+        "metric" => TemperatureUnitType.METRIC,
+        "imperial" => TemperatureUnitType.IMPERIAL,
         _ => throw new ArgumentException($"Invalid unit: {unit}")
       };
     }
-    public static string ConvertTempratureUnitToString(TempratureUnitType unit)
+    public static string ConvertTempratureUnitToString(TemperatureUnitType unit)
     {
       return unit switch
       {
-        TempratureUnitType.METRIC => "metric",
-        TempratureUnitType.IMPERIAL => "imperial",
+        TemperatureUnitType.METRIC => "metric",
+        TemperatureUnitType.IMPERIAL => "imperial",
         _ => throw new ArgumentException($"Invalid unit: {unit}")
       };
     }

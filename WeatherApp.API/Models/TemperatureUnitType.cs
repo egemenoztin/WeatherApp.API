@@ -1,6 +1,6 @@
 ﻿namespace WeatherApp.API.Models
 {
-  public enum TempratureUnitType
+  public enum TemperatureUnitType
   {
     METRIC,
     IMPERIAL
