@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 using WeatherApp.API.Interfaces;
 using WeatherApp.API.Models;
 
@@ -9,7 +10,7 @@ namespace WeatherApp.API.Controllers
   public class WeatherController : ControllerBase
   {
     private readonly IWeatherService _weatherService;
-    private static string _temperatureUnit = "metric"; // Default unit
+    private TempratureUnitType _temperatureUnit;  // Keep this field
 
     public WeatherController(IWeatherService weatherService)
     {
@@ -17,11 +18,11 @@ namespace WeatherApp.API.Controllers
     }
 
     [HttpGet("getWeatherData")]
-    public async Task<IActionResult> GetWeatherData([FromQuery] string city)
+    public async Task<IActionResult> GetWeatherData([FromQuery] string city, [FromQuery] string unit)
     {
       try
       {
-        var weatherData = await _weatherService.GetWeatherForCity(city, _temperatureUnit);
+        var weatherData = await _weatherService.GetWeatherForCity(city, unit);
         return Ok(weatherData);
       }
       catch (Exception ex)
@@ -33,13 +34,15 @@ namespace WeatherApp.API.Controllers
     [HttpPost("setTemperatureUnit")]
     public IActionResult SetTemperatureUnit([FromBody] TemperatureUnitRequest request)
     {
-      if (request.Unit != "metric" && request.Unit != "imperial")
+      try
+      {
+        _temperatureUnit = Utils.ConvertTempratureUnitType(request.Unit);
+        return Ok($"Temperature unit set to {request.Unit}");
+      }
+      catch (Exception)
       {
         return BadRequest("Invalid unit. Use 'metric' or 'imperial'");
       }
-
-      _temperatureUnit = request.Unit;
-      return Ok($"Temperature unit set to {request.Unit}");
     }
   }
 }
