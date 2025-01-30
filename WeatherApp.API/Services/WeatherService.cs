@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using WeatherApp.API.Controllers;
 using WeatherApp.API.Interfaces;
 using WeatherApp.API.Models;
 
@@ -7,19 +8,19 @@ namespace WeatherApp.API.Services
   public class WeatherService : IWeatherService
   {
     private readonly HttpClient _httpClient;
-    private readonly string _apiKey;
+    private readonly IConfiguration _configuration;
 
-    public WeatherService(HttpClient httpClient)
+    public WeatherService(HttpClient httpClient, IConfiguration configuration)
     {
       _httpClient = httpClient;
-      _apiKey = "f00c38e0279b7bc85480c3fe775d518c";
+      this._configuration = configuration;
     }
 
     public async Task<WeatherData> GetWeatherForCity(string city, string unit)
     {
       // Build the API URL with query parameters
       var response = await _httpClient.GetAsync(
-          $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={_apiKey}&units={unit}");
+          $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={_configuration["ApiKey"]}&units={unit}");
 
       response.EnsureSuccessStatusCode();
       var content = await response.Content.ReadAsStringAsync();
